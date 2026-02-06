@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTC Death Spiral Watch</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+  <header>
+    <h1>BTC Death Spiral Watch</h1>
+    <p class="subtitle">Auditable daily leverage-risk monitor</p>
+  </header>
+
+  <main>
+    <!-- Latest values -->
+    <section id="latest" class="card">
+      <h2>Latest</h2>
+      <div class="grid-3">
+        <div class="metric">
+          <span class="label">Price (USD)</span>
+          <span id="val-price" class="value">—</span>
+        </div>
+        <div class="metric">
+          <span class="label">Open Interest</span>
+          <span id="val-oi" class="value">—</span>
+        </div>
+        <div class="metric">
+          <span class="label">Funding Rate</span>
+          <span id="val-funding" class="value">—</span>
+        </div>
+      </div>
+      <p class="ts" id="val-ts">—</p>
+    </section>
+
+    <!-- Charts (7-day) -->
+    <section class="card">
+      <h2>7-Day Charts</h2>
+      <div class="chart-container"><canvas id="chart-price"></canvas></div>
+      <div class="chart-container"><canvas id="chart-oi"></canvas></div>
+      <div class="chart-container"><canvas id="chart-funding"></canvas></div>
+    </section>
+
+    <!-- History table -->
+    <section class="card">
+      <h2>History (latest 30)</h2>
+      <div class="table-wrap">
+        <table id="history-table">
+          <thead>
+            <tr>
+              <th>Timestamp (UTC)</th>
+              <th>Price (USD)</th>
+              <th>OI (USD)</th>
+              <th>Funding Rate</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Data for informational purposes only. Not investment advice.</p>
+    <p>Source: <a href="https://www.coingecko.com" target="_blank">CoinGecko</a> &amp; <a href="https://www.binance.com" target="_blank">Binance Futures</a></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
