@@ -29,17 +29,24 @@ header h1 {
   font-size: 0.95rem;
 }
 
-.tz-selector {
+.toolbar {
   margin-top: 0.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.tz-selector, .lang-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.85rem;
   color: #8b949e;
 }
 
-.tz-selector select {
+.tz-selector select, .lang-selector select {
   background: #161b22;
   color: #e6edf3;
   border: 1px solid #30363d;
@@ -49,10 +56,102 @@ header h1 {
   cursor: pointer;
 }
 
-.tz-selector select:focus {
+.tz-selector select:focus, .lang-selector select:focus {
   outline: none;
   border-color: #58a6ff;
 }
+
+/* --- Risk Status Panel --- */
+
+.risk-panel {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.risk-meter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: #0d1117;
+  border-radius: 12px;
+  padding: 0.8rem 1.5rem;
+  border: 2px solid #30363d;
+  margin-bottom: 0.8rem;
+}
+
+.risk-meter .risk-icon {
+  font-size: 2rem;
+}
+
+.risk-meter .risk-text {
+  text-align: left;
+}
+
+.risk-meter .risk-verdict {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.risk-meter .risk-sub {
+  font-size: 0.78rem;
+  color: #8b949e;
+}
+
+.risk-meter.risk-high {
+  border-color: #f85149;
+}
+
+.risk-meter.risk-high .risk-verdict {
+  color: #f85149;
+}
+
+.risk-meter.risk-low {
+  border-color: #3fb950;
+}
+
+.risk-meter.risk-low .risk-verdict {
+  color: #3fb950;
+}
+
+.risk-meter.risk-neutral {
+  border-color: #8b949e;
+}
+
+.risk-meter.risk-neutral .risk-verdict {
+  color: #8b949e;
+}
+
+.risk-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+}
+
+.risk-ind {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.78rem;
+}
+
+.risk-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.risk-dot.green  { background: #3fb950; }
+.risk-dot.yellow { background: #d29922; }
+.risk-dot.orange { background: #db6d28; }
+.risk-dot.red    { background: #f85149; }
+.risk-dot.gray   { background: #8b949e; }
 
 .card {
   background: #161b22;
