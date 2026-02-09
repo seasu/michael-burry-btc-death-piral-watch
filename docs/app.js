@@ -14,6 +14,48 @@
   const fmtFunding = (v) => Number(v).toFixed(6);
 
   // ------------------------------------------------------------------
+  // Timezone
+  // ------------------------------------------------------------------
+  const tzSelect = $("#tz-select");
+  const savedTz = localStorage.getItem("tz");
+  if (savedTz && [...tzSelect.options].some((o) => o.value === savedTz)) {
+    tzSelect.value = savedTz;
+  }
+
+  function getTimezone() {
+    return tzSelect.value;
+  }
+
+  function fmtTs(utcStr) {
+    const tz = getTimezone();
+    const d = new Date(utcStr);
+    if (tz === "UTC") {
+      return utcStr.replace("T", " ").replace("Z", "") + " UTC";
+    }
+    return d.toLocaleString("sv-SE", { timeZone: tz }).replace("T", " ") + " " + tzAbbr(tz);
+  }
+
+  function fmtTsShort(utcStr) {
+    const tz = getTimezone();
+    const d = new Date(utcStr);
+    if (tz === "UTC") {
+      return utcStr.replace("T", " ").replace("Z", "");
+    }
+    return d.toLocaleString("sv-SE", { timeZone: tz }).replace("T", " ");
+  }
+
+  function tzAbbr(tz) {
+    const abbrs = {
+      "UTC": "UTC",
+      "Asia/Taipei": "TPE",
+      "America/New_York": "ET",
+      "Europe/London": "LDN",
+      "Asia/Tokyo": "JST",
+    };
+    return abbrs[tz] || tz;
+  }
+
+  // ------------------------------------------------------------------
   // Fetch data
   // ------------------------------------------------------------------
   let latest, history;
@@ -55,27 +97,68 @@
   }
 
   // ------------------------------------------------------------------
-  // Latest values
+  // Charts (stored for re-render)
   // ------------------------------------------------------------------
-  $("#val-price").textContent = fmtPrice(latest.price_usd);
-  $("#val-oi").textContent = fmtOI(latest.oi_usd);
-  $("#val-funding").textContent = fmtFunding(latest.funding_rate);
-  $("#val-ts").textContent = "Updated: " + latest.ts_utc;
+  let priceChart, oiChart, fundingChart;
+
+  function render() {
+    const tz = getTimezone();
+
+    // Latest values
+    $("#val-price").textContent = fmtPrice(latest.price_usd);
+    $("#val-oi").textContent = fmtOI(latest.oi_usd);
+    $("#val-funding").textContent = fmtFunding(latest.funding_rate);
+    $("#val-ts").textContent = "Updated: " + fmtTs(latest.ts_utc);
+
+    // Table header
+    $("#th-ts").textContent = "Timestamp (" + tzAbbr(tz) + ")";
+
+    // 7-day filter
+    const now = new Date();
+    const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const recent = history.filter((r) => new Date(r.ts_utc) >= sevenDaysAgo);
+    const labels = recent.map((r) => fmtTsShort(r.ts_utc));
+
+    // Update charts
+    if (priceChart) {
+      priceChart.data.labels = labels;
+      priceChart.update("none");
+    }
+    if (oiChart) {
+      oiChart.data.labels = labels;
+      oiChart.update("none");
+    }
+    if (fundingChart) {
+      fundingChart.data.labels = labels;
+      fundingChart.update("none");
+    }
+
+    // Table
+    const tbody = $("#history-table tbody");
+    tbody.innerHTML = "";
+    const sorted = [...history].sort((a, b) => (a.ts_utc > b.ts_utc ? -1 : 1));
+    const last30 = sorted.slice(0, 30);
+    for (const row of last30) {
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        `<td>${fmtTs(row.ts_utc)}</td>` +
+        `<td>${fmtPrice(row.price_usd)}</td>` +
+        `<td>${fmtOI(row.oi_usd)}</td>` +
+        `<td>${fmtFunding(row.funding_rate)}</td>`;
+      tbody.appendChild(tr);
+    }
+  }
 
   // ------------------------------------------------------------------
-  // 7-day filter
-  // ------------------------------------------------------------------
-  const now = new Date();
-  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-  const recent = history.filter((r) => new Date(r.ts_utc) >= sevenDaysAgo);
-
-  const labels = recent.map((r) => r.ts_utc.replace("T", " ").replace("Z", ""));
-
-  // ------------------------------------------------------------------
-  // Chart defaults
+  // Chart setup
   // ------------------------------------------------------------------
   Chart.defaults.color = "#8b949e";
   Chart.defaults.borderColor = "#21262d";
+
+  const now = new Date();
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const recent = history.filter((r) => new Date(r.ts_utc) >= sevenDaysAgo);
+  const labels = recent.map((r) => fmtTsShort(r.ts_utc));
 
   const commonOpts = {
     responsive: true,
@@ -91,8 +174,7 @@
     },
   };
 
-  // Price chart
-  new Chart($("#chart-price"), {
+  priceChart = new Chart($("#chart-price"), {
     type: "line",
     data: {
       labels,
@@ -112,8 +194,7 @@
     },
   });
 
-  // OI chart
-  new Chart($("#chart-oi"), {
+  oiChart = new Chart($("#chart-oi"), {
     type: "line",
     data: {
       labels,
@@ -133,8 +214,7 @@
     },
   });
 
-  // Funding chart
-  new Chart($("#chart-funding"), {
+  fundingChart = new Chart($("#chart-funding"), {
     type: "line",
     data: {
       labels,
@@ -155,19 +235,12 @@
   });
 
   // ------------------------------------------------------------------
-  // History table (latest 30)
+  // Initial render + timezone change listener
   // ------------------------------------------------------------------
-  const tbody = $("#history-table tbody");
-  const sorted = [...history].sort((a, b) => (a.ts_utc > b.ts_utc ? -1 : 1));
-  const last30 = sorted.slice(0, 30);
+  render();
 
-  for (const row of last30) {
-    const tr = document.createElement("tr");
-    tr.innerHTML =
-      `<td>${row.ts_utc}</td>` +
-      `<td>${fmtPrice(row.price_usd)}</td>` +
-      `<td>${fmtOI(row.oi_usd)}</td>` +
-      `<td>${fmtFunding(row.funding_rate)}</td>`;
-    tbody.appendChild(tr);
-  }
+  tzSelect.addEventListener("change", () => {
+    localStorage.setItem("tz", tzSelect.value);
+    render();
+  });
 })();

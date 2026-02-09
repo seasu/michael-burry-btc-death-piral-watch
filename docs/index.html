@@ -11,6 +11,16 @@
   <header>
     <h1>BTC Death Spiral Watch</h1>
     <p class="subtitle">Auditable daily leverage-risk monitor</p>
+    <div class="tz-selector">
+      <label for="tz-select">Timezone:</label>
+      <select id="tz-select">
+        <option value="UTC">UTC</option>
+        <option value="Asia/Taipei" selected>Asia/Taipei (UTC+8)</option>
+        <option value="America/New_York">US Eastern</option>
+        <option value="Europe/London">London</option>
+        <option value="Asia/Tokyo">Tokyo (UTC+9)</option>
+      </select>
+    </div>
   </header>
 
   <main>
@@ -49,7 +59,7 @@
         <table id="history-table">
           <thead>
             <tr>
-              <th>Timestamp (UTC)</th>
+              <th id="th-ts">Timestamp</th>
               <th>Price (USD)</th>
               <th>OI (USD)</th>
               <th>Funding Rate</th>
@@ -63,7 +73,7 @@
 
   <footer>
     <p>Data for informational purposes only. Not investment advice.</p>
-    <p>Source: <a href="https://www.coingecko.com" target="_blank">CoinGecko</a> &amp; <a href="https://www.binance.com" target="_blank">Binance Futures</a></p>
+    <p>Source: <a href="https://www.coingecko.com" target="_blank">CoinGecko</a></p>
   </footer>
 
   <script src="app.js"></script>
