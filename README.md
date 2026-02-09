@@ -12,8 +12,8 @@
 | 指標 | 來源 | API |
 |------|------|-----|
 | BTC Price (USD) | CoinGecko | `GET /api/v3/simple/price?ids=bitcoin&vs_currencies=usd` |
-| BTCUSDT Open Interest | Bybit | `GET /v5/market/open-interest?category=linear&symbol=BTCUSDT&intervalTime=1h&limit=1` |
-| BTCUSDT Funding Rate | Bybit | `GET /v5/market/tickers?category=linear&symbol=BTCUSDT` |
+| BTCUSDT Open Interest | CoinGecko | `GET /api/v3/derivatives` (filter BTCUSDT perpetual) |
+| BTCUSDT Funding Rate | CoinGecko | `GET /api/v3/derivatives` (filter BTCUSDT perpetual) |
 
 ## Verdict 判讀規則
 
