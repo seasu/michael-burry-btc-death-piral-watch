@@ -25,10 +25,7 @@ COINGECKO_PRICE_URL = (
 )
 
 def binance_oi_url(symbol: str) -> str:
-    return (
-        f"https://fapi.binance.com/futures/data/openInterestHist"
-        f"?symbol={symbol}&period=1h&limit=1"
-    )
+    return f"https://fapi.binance.com/fapi/v1/openInterest?symbol={symbol}"
 
 def binance_funding_url(symbol: str) -> str:
     return f"https://fapi.binance.com/fapi/v1/premiumIndex?symbol={symbol}"
@@ -54,9 +51,10 @@ def main() -> None:
     price_data = fetch_json(COINGECKO_PRICE_URL)
     price_usd = float(price_data["bitcoin"]["usd"])
 
-    # 2) 抓 Open Interest
+    # 2) 抓 Open Interest（/fapi/v1/openInterest 回傳 BTC 數量，乘以價格得 USD）
     oi_data = fetch_json(binance_oi_url(symbol))
-    oi_usd = float(oi_data[0]["sumOpenInterestValue"])
+    oi_btc = float(oi_data["openInterest"])
+    oi_usd = oi_btc * price_usd
 
     # 3) 抓 Funding Rate
     funding_data = fetch_json(binance_funding_url(symbol))
