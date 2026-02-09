@@ -24,11 +24,14 @@ COINGECKO_PRICE_URL = (
     "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
 )
 
-def binance_oi_url(symbol: str) -> str:
-    return f"https://fapi.binance.com/fapi/v1/openInterest?symbol={symbol}"
+def bybit_oi_url(symbol: str) -> str:
+    return (
+        f"https://api.bybit.com/v5/market/open-interest"
+        f"?category=linear&symbol={symbol}&intervalTime=1h&limit=1"
+    )
 
-def binance_funding_url(symbol: str) -> str:
-    return f"https://fapi.binance.com/fapi/v1/premiumIndex?symbol={symbol}"
+def bybit_ticker_url(symbol: str) -> str:
+    return f"https://api.bybit.com/v5/market/tickers?category=linear&symbol={symbol}"
 
 
 # ---------------------------------------------------------------------------
@@ -51,14 +54,14 @@ def main() -> None:
     price_data = fetch_json(COINGECKO_PRICE_URL)
     price_usd = float(price_data["bitcoin"]["usd"])
 
-    # 2) 抓 Open Interest（/fapi/v1/openInterest 回傳 BTC 數量，乘以價格得 USD）
-    oi_data = fetch_json(binance_oi_url(symbol))
-    oi_btc = float(oi_data["openInterest"])
+    # 2) 抓 Open Interest（Bybit, BTC 數量 × 價格 = USD）
+    oi_data = fetch_json(bybit_oi_url(symbol))
+    oi_btc = float(oi_data["result"]["list"][0]["openInterest"])
     oi_usd = oi_btc * price_usd
 
-    # 3) 抓 Funding Rate
-    funding_data = fetch_json(binance_funding_url(symbol))
-    funding_rate = float(funding_data["lastFundingRate"])
+    # 3) 抓 Funding Rate（Bybit）
+    ticker_data = fetch_json(bybit_ticker_url(symbol))
+    funding_rate = float(ticker_data["result"]["list"][0]["fundingRate"])
 
     # 4) 對齊整點 ts
     ts = ts_utc_hour_aligned()
