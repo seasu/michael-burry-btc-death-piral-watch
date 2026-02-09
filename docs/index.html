@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,43 +10,68 @@
 <body>
   <header>
     <h1>BTC Death Spiral Watch</h1>
-    <p class="subtitle">Auditable daily leverage-risk monitor</p>
-    <div class="tz-selector">
-      <label for="tz-select">Timezone:</label>
-      <select id="tz-select">
-        <option value="UTC">UTC</option>
-        <option value="Asia/Taipei" selected>Asia/Taipei (UTC+8)</option>
-        <option value="America/New_York">US Eastern</option>
-        <option value="Europe/London">London</option>
-        <option value="Asia/Tokyo">Tokyo (UTC+9)</option>
-      </select>
+    <p class="subtitle" data-i18n="subtitle">可審計的每日槓桿風險監測</p>
+    <div class="toolbar">
+      <div class="tz-selector">
+        <label for="tz-select" data-i18n="tz_label">時區：</label>
+        <select id="tz-select">
+          <option value="UTC">UTC</option>
+          <option value="Asia/Taipei" selected>Asia/Taipei (UTC+8)</option>
+          <option value="America/New_York">US Eastern</option>
+          <option value="Europe/London">London</option>
+          <option value="Asia/Tokyo">Tokyo (UTC+9)</option>
+        </select>
+      </div>
+      <div class="lang-selector">
+        <label for="lang-select" data-i18n="lang_label">語言：</label>
+        <select id="lang-select">
+          <option value="zh-TW">繁體中文</option>
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
+        </select>
+      </div>
     </div>
   </header>
 
   <main>
     <!-- Latest values -->
     <section id="latest" class="card">
-      <h2>Latest</h2>
+      <h2 data-i18n="latest">最新數據</h2>
       <div class="grid-3">
         <div class="metric">
-          <span class="label">Price (USD)</span>
+          <span class="label" data-i18n="price_label">價格 (USD)</span>
           <span id="val-price" class="value">—</span>
         </div>
         <div class="metric">
-          <span class="label">Open Interest</span>
+          <span class="label" data-i18n="oi_label">未平倉量</span>
           <span id="val-oi" class="value">—</span>
         </div>
         <div class="metric">
-          <span class="label">Funding Rate</span>
+          <span class="label" data-i18n="funding_label">資金費率</span>
           <span id="val-funding" class="value">—</span>
         </div>
       </div>
       <p class="ts" id="val-ts">—</p>
     </section>
 
+    <!-- Risk Status -->
+    <section id="risk-status" class="card">
+      <h2 data-i18n="risk_title">風險狀態</h2>
+      <div class="risk-panel">
+        <div id="risk-meter" class="risk-meter risk-neutral">
+          <span class="risk-icon" id="risk-icon">--</span>
+          <div class="risk-text">
+            <div class="risk-verdict" id="risk-verdict">--</div>
+            <div class="risk-sub" id="risk-sub">--</div>
+          </div>
+        </div>
+        <div class="risk-indicators" id="risk-indicators"></div>
+      </div>
+    </section>
+
     <!-- Charts (7-day) -->
     <section class="card">
-      <h2>7-Day Charts</h2>
+      <h2 data-i18n="charts_title">7 天走勢圖</h2>
       <div class="chart-container"><canvas id="chart-price"></canvas></div>
       <div class="chart-container"><canvas id="chart-oi"></canvas></div>
       <div class="chart-container"><canvas id="chart-funding"></canvas></div>
@@ -54,15 +79,15 @@
 
     <!-- History table -->
     <section class="card">
-      <h2>History (latest 30)</h2>
+      <h2 data-i18n="history_title">歷史紀錄（最近 30 筆）</h2>
       <div class="table-wrap">
         <table id="history-table">
           <thead>
             <tr>
-              <th id="th-ts">Timestamp</th>
-              <th>Price (USD)</th>
-              <th>OI (USD)</th>
-              <th>Funding Rate</th>
+              <th id="th-ts" data-i18n="th_timestamp">時間戳記</th>
+              <th data-i18n="th_price">價格 (USD)</th>
+              <th data-i18n="th_oi">OI (USD)</th>
+              <th data-i18n="th_funding">資金費率</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -72,8 +97,8 @@
 
     <!-- Indicator Guide -->
     <section class="card guide">
-      <h2>Indicator Guide — Death Spiral Risk</h2>
-      <p class="guide-intro">
+      <h2 data-i18n="guide_title">指標說明 — 死亡螺旋風險</h2>
+      <p class="guide-intro" data-i18n="guide_intro">
         Michael Burry 式的「泡沫崩塌」核心邏輯：當槓桿過度膨脹，市場只需一個下跌觸發點，
         就會進入<strong>價格下跌 → 強制平倉 → 賣壓加劇 → 價格再跌</strong>的死亡螺旋。
         以下三個指標可以幫助判斷螺旋是否正在形成。
@@ -82,57 +107,54 @@
       <div class="guide-grid">
         <!-- Price -->
         <div class="guide-item">
-          <h3>BTC Price (USD)</h3>
-          <p class="guide-desc">比特幣現貨價格。價格本身不是風險指標，但<strong>價格的變動方向</strong>搭配 OI 變動才是關鍵。</p>
+          <h3 data-i18n="guide_price_title">BTC Price (USD)</h3>
+          <p class="guide-desc" data-i18n="guide_price_desc">比特幣現貨價格。價格本身不是風險指標，但價格的變動方向搭配 OI 變動才是關鍵。</p>
           <table class="threshold-table">
-            <thead><tr><th>24h 變動</th><th>狀態</th></tr></thead>
+            <thead><tr><th data-i18n="th_24h_change">24h 變動</th><th data-i18n="th_status">狀態</th></tr></thead>
             <tbody>
-              <tr><td>&gt; +3%</td><td><span class="tag tag-green">正常上漲</span></td></tr>
-              <tr><td>-3% ~ +3%</td><td><span class="tag tag-gray">盤整</span></td></tr>
-              <tr><td>-3% ~ -7%</td><td><span class="tag tag-yellow">修正</span></td></tr>
-              <tr><td>-7% ~ -15%</td><td><span class="tag tag-orange">急跌警戒</span></td></tr>
-              <tr><td>&lt; -15%</td><td><span class="tag tag-red">崩盤等級</span></td></tr>
+              <tr><td>&gt; +3%</td><td><span class="tag tag-green" data-i18n="price_up">正常上漲</span></td></tr>
+              <tr><td>-3% ~ +3%</td><td><span class="tag tag-gray" data-i18n="price_flat">盤整</span></td></tr>
+              <tr><td>-3% ~ -7%</td><td><span class="tag tag-yellow" data-i18n="price_correction">修正</span></td></tr>
+              <tr><td>-7% ~ -15%</td><td><span class="tag tag-orange" data-i18n="price_sharp_drop">急跌警戒</span></td></tr>
+              <tr><td>&lt; -15%</td><td><span class="tag tag-red" data-i18n="price_crash">崩盤等級</span></td></tr>
             </tbody>
           </table>
         </div>
 
         <!-- OI -->
         <div class="guide-item">
-          <h3>Open Interest (OI)</h3>
-          <p class="guide-desc">
+          <h3 data-i18n="guide_oi_title">Open Interest (OI)</h3>
+          <p class="guide-desc" data-i18n="guide_oi_desc">
             未平倉合約總值。OI 代表市場上「還沒結束的賭注」有多大。
-            <strong>OI 下降 = 有人被迫平倉或主動撤退</strong>，若同時價格也在跌，
-            代表多頭正在被清算——這是螺旋的核心機制。
+            OI 下降 = 有人被迫平倉或主動撤退，若同時價格也在跌，代表多頭正在被清算——這是螺旋的核心機制。
           </p>
           <table class="threshold-table">
-            <thead><tr><th>24h 變動</th><th>狀態</th></tr></thead>
+            <thead><tr><th data-i18n="th_24h_change">24h 變動</th><th data-i18n="th_status">狀態</th></tr></thead>
             <tbody>
-              <tr><td>&gt; +5%</td><td><span class="tag tag-yellow">槓桿快速增加，潛在風險累積</span></td></tr>
-              <tr><td>+1% ~ +5%</td><td><span class="tag tag-green">健康增長</span></td></tr>
-              <tr><td>-1% ~ +1%</td><td><span class="tag tag-gray">穩定</span></td></tr>
-              <tr><td>-5% ~ -1%</td><td><span class="tag tag-orange">去槓桿中</span></td></tr>
-              <tr><td>&lt; -5%</td><td><span class="tag tag-red">大規模清算，螺旋風險高</span></td></tr>
+              <tr><td>&gt; +5%</td><td><span class="tag tag-yellow" data-i18n="oi_rapid_increase">槓桿快速增加，潛在風險累積</span></td></tr>
+              <tr><td>+1% ~ +5%</td><td><span class="tag tag-green" data-i18n="oi_healthy">健康增長</span></td></tr>
+              <tr><td>-1% ~ +1%</td><td><span class="tag tag-gray" data-i18n="oi_stable">穩定</span></td></tr>
+              <tr><td>-5% ~ -1%</td><td><span class="tag tag-orange" data-i18n="oi_deleveraging">去槓桿中</span></td></tr>
+              <tr><td>&lt; -5%</td><td><span class="tag tag-red" data-i18n="oi_mass_liquidation">大規模清算，螺旋風險高</span></td></tr>
             </tbody>
           </table>
         </div>
 
         <!-- Funding Rate -->
         <div class="guide-item">
-          <h3>Funding Rate</h3>
-          <p class="guide-desc">
-            永續合約多空雙方定期互付的費率。正值 = 多頭付錢（市場偏多），
-            負值 = 空頭付錢（市場偏空）。
-            <strong>極端正值代表多頭過度擁擠</strong>，是泡沫即將反轉的前兆；
-            <strong>極端負值代表恐慌</strong>，螺旋可能正在發生。
+          <h3 data-i18n="guide_funding_title">Funding Rate</h3>
+          <p class="guide-desc" data-i18n="guide_funding_desc">
+            永續合約多空雙方定期互付的費率。正值 = 多頭付錢（市場偏多），負值 = 空頭付錢（市場偏空）。
+            極端正值代表多頭過度擁擠，是泡沫即將反轉的前兆；極端負值代表恐慌，螺旋可能正在發生。
           </p>
           <table class="threshold-table">
-            <thead><tr><th>Funding Rate</th><th>狀態</th></tr></thead>
+            <thead><tr><th data-i18n="th_funding_rate">Funding Rate</th><th data-i18n="th_status">狀態</th></tr></thead>
             <tbody>
-              <tr><td>&gt; 0.03%</td><td><span class="tag tag-red">多頭極度擁擠 — Burry 泡沫訊號</span></td></tr>
-              <tr><td>0.01% ~ 0.03%</td><td><span class="tag tag-yellow">偏多，留意反轉</span></td></tr>
-              <tr><td>-0.01% ~ 0.01%</td><td><span class="tag tag-green">中性健康</span></td></tr>
-              <tr><td>-0.03% ~ -0.01%</td><td><span class="tag tag-orange">偏空，去槓桿中</span></td></tr>
-              <tr><td>&lt; -0.03%</td><td><span class="tag tag-red">極度恐慌 — 螺旋進行中</span></td></tr>
+              <tr><td>&gt; 0.03%</td><td><span class="tag tag-red" data-i18n="fr_extreme_long">多頭極度擁擠 — Burry 泡沫訊號</span></td></tr>
+              <tr><td>0.01% ~ 0.03%</td><td><span class="tag tag-yellow" data-i18n="fr_long_bias">偏多，留意反轉</span></td></tr>
+              <tr><td>-0.01% ~ 0.01%</td><td><span class="tag tag-green" data-i18n="fr_neutral">中性健康</span></td></tr>
+              <tr><td>-0.03% ~ -0.01%</td><td><span class="tag tag-orange" data-i18n="fr_short_bias">偏空，去槓桿中</span></td></tr>
+              <tr><td>&lt; -0.03%</td><td><span class="tag tag-red" data-i18n="fr_extreme_panic">極度恐慌 — 螺旋進行中</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -140,24 +162,28 @@
 
       <!-- Verdict -->
       <div class="guide-verdict">
-        <h3>Verdict 判讀規則</h3>
+        <h3 data-i18n="verdict_title">Verdict 判讀規則</h3>
         <table class="threshold-table verdict-table">
-          <thead><tr><th>組合條件</th><th>判讀</th><th>含義</th></tr></thead>
+          <thead><tr>
+            <th data-i18n="th_condition">組合條件</th>
+            <th data-i18n="th_verdict">判讀</th>
+            <th data-i18n="th_meaning">含義</th>
+          </tr></thead>
           <tbody>
             <tr>
-              <td>Price ↓ 且 OI ↓</td>
+              <td data-i18n="v_cond_spiral_up">Price ↓ 且 OI ↓</td>
               <td><span class="tag tag-red">Spiral risk ↑</span></td>
-              <td>價格與槓桿同步下降，市場正在強制去槓桿，死亡螺旋風險升高</td>
+              <td data-i18n="v_meaning_spiral_up">價格與槓桿同步下降，市場正在強制去槓桿，死亡螺旋風險升高</td>
             </tr>
             <tr>
-              <td>Price ↑ 且 OI ↑</td>
+              <td data-i18n="v_cond_spiral_down">Price ↑ 且 OI ↑</td>
               <td><span class="tag tag-green">Spiral risk ↓</span></td>
-              <td>新資金進場推動價格，槓桿健康增長，螺旋風險低</td>
+              <td data-i18n="v_meaning_spiral_down">新資金進場推動價格，槓桿健康增長，螺旋風險低</td>
             </tr>
             <tr>
-              <td>其他組合</td>
+              <td data-i18n="v_cond_neutral">其他組合</td>
               <td><span class="tag tag-gray">Neutral</span></td>
-              <td>訊號混合，暫無明確方向。例：價格跌但 OI 升 = 有人在抄底開多</td>
+              <td data-i18n="v_meaning_neutral">訊號混合，暫無明確方向。例：價格跌但 OI 升 = 有人在抄底開多</td>
             </tr>
           </tbody>
         </table>
@@ -165,14 +191,14 @@
 
       <!-- Burry Signal -->
       <div class="guide-burry">
-        <h3>什麼情況接近 Burry 所說的泡沫崩塌？</h3>
-        <p>當以下條件<strong>同時出現</strong>時，市場處於最危險的狀態：</p>
+        <h3 data-i18n="burry_title">什麼情況接近 Burry 所說的泡沫崩塌？</h3>
+        <p data-i18n="burry_intro">當以下條件同時出現時，市場處於最危險的狀態：</p>
         <ol>
-          <li><strong>OI 處於歷史高位</strong>（槓桿泡沫已形成）</li>
-          <li><strong>Funding Rate &gt; 0.03%</strong>（多頭極度擁擠，所有人都在同一邊）</li>
-          <li><strong>價格開始下跌 &gt; 5%</strong>（觸發第一波清算）</li>
-          <li><strong>OI 急速下降 &gt; 5%</strong>（連鎖清算已啟動）</li>
-          <li><strong>Funding Rate 急轉為負</strong>（市場從貪婪瞬間轉為恐慌）</li>
+          <li data-i18n="burry_1">OI 處於歷史高位（槓桿泡沫已形成）</li>
+          <li data-i18n="burry_2">Funding Rate &gt; 0.03%（多頭極度擁擠，所有人都在同一邊）</li>
+          <li data-i18n="burry_3">價格開始下跌 &gt; 5%（觸發第一波清算）</li>
+          <li data-i18n="burry_4">OI 急速下降 &gt; 5%（連鎖清算已啟動）</li>
+          <li data-i18n="burry_5">Funding Rate 急轉為負（市場從貪婪瞬間轉為恐慌）</li>
         </ol>
         <p class="burry-quote">
           "People always ask me what is going on in the markets. It is simple.
@@ -180,14 +206,14 @@
         </p>
       </div>
 
-      <p class="guide-disclaimer">
+      <p class="guide-disclaimer" data-i18n="disclaimer">
         以上閾值僅供參考，基於歷史經驗歸納，不構成投資建議。市場條件會改變，請自行判斷。
       </p>
     </section>
   </main>
 
   <footer>
-    <p>Data for informational purposes only. Not investment advice.</p>
+    <p data-i18n="footer_info">資料僅供參考，非投資建議。</p>
     <p>Source: <a href="https://www.coingecko.com" target="_blank">CoinGecko</a></p>
   </footer>
 
