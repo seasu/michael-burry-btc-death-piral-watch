@@ -1,6 +1,7 @@
 /**
  * app.js — BTC Death Spiral Watch dashboard
- * Features: i18n (zh-TW / en / ja), timezone selector, charts, table
+ * Features: i18n (zh-TW / en / ja), timezone selector, charts, table,
+ *           animated number counters, smooth transitions
  */
 
 (async function () {
@@ -8,6 +9,40 @@
 
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
+
+  // ==================================================================
+  // CountUp animation engine
+  // ==================================================================
+  function animateValue(el, endValue, formatter, duration) {
+    if (!duration) duration = 900;
+    const text = el.textContent;
+    // Parse current displayed number (strip formatting)
+    const startValue = parseFloat(text.replace(/[^0-9.\-]/g, "")) || 0;
+    if (startValue === endValue || isNaN(endValue)) {
+      el.textContent = formatter(endValue);
+      return;
+    }
+    const startTime = performance.now();
+    el.classList.add("counting");
+
+    function tick(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-out cubic
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const current = startValue + (endValue - startValue) * ease;
+      el.textContent = formatter(current);
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = formatter(endValue);
+        el.classList.remove("counting");
+        el.classList.add("flash");
+        el.addEventListener("animationend", () => el.classList.remove("flash"), { once: true });
+      }
+    }
+    requestAnimationFrame(tick);
+  }
 
   // ==================================================================
   // i18n translations
@@ -353,10 +388,12 @@
   }
 
   // ==================================================================
-  // Charts
+  // Charts — Modern styling
   // ==================================================================
-  Chart.defaults.color = "#8b949e";
-  Chart.defaults.borderColor = "#21262d";
+  Chart.defaults.color = "#64748b";
+  Chart.defaults.borderColor = "rgba(255,255,255,0.04)";
+  Chart.defaults.font.family = "'Inter', sans-serif";
+  Chart.defaults.font.size = 11;
 
   const now = new Date();
   const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -366,29 +403,110 @@
   const commonOpts = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
+    interaction: { mode: "index", intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: "rgba(10,14,23,0.9)",
+        borderColor: "rgba(255,255,255,0.1)",
+        borderWidth: 1,
+        titleFont: { family: "'Inter', sans-serif", size: 11 },
+        bodyFont: { family: "'JetBrains Mono', monospace", size: 12 },
+        padding: 10,
+        cornerRadius: 8,
+        displayColors: false,
+      },
+    },
     scales: {
-      x: { ticks: { maxTicksLimit: 8, maxRotation: 0, font: { size: 10 } } },
-      y: { ticks: { font: { size: 10 } } },
+      x: {
+        ticks: { maxTicksLimit: 7, maxRotation: 0, font: { size: 10 } },
+        grid: { color: "rgba(255,255,255,0.03)" },
+      },
+      y: {
+        ticks: { font: { size: 10 } },
+        grid: { color: "rgba(255,255,255,0.03)" },
+      },
+    },
+    elements: {
+      line: { borderWidth: 2 },
+      point: { radius: 0, hoverRadius: 4, hoverBorderWidth: 2 },
     },
   };
 
+  function makeGradient(ctx, color1, color2) {
+    const gradient = ctx.createLinearGradient(0, 0, 0, 220);
+    gradient.addColorStop(0, color1);
+    gradient.addColorStop(1, color2);
+    return gradient;
+  }
+
+  const priceCtx = $("#chart-price").getContext("2d");
   const priceChart = new Chart($("#chart-price"), {
     type: "line",
-    data: { labels, datasets: [{ label: "Price", data: recent.map((r) => r.price_usd), borderColor: "#f0883e", backgroundColor: "rgba(240,136,62,0.1)", fill: true, tension: 0.3, pointRadius: 0 }] },
-    options: { ...commonOpts, plugins: { ...commonOpts.plugins, title: { display: true, text: t("chart_price"), color: "#e6edf3" } } },
+    data: {
+      labels,
+      datasets: [{
+        label: "Price",
+        data: recent.map((r) => r.price_usd),
+        borderColor: "#f97316",
+        backgroundColor: makeGradient(priceCtx, "rgba(249,115,22,0.15)", "rgba(249,115,22,0)"),
+        fill: true,
+        tension: 0.4,
+      }],
+    },
+    options: {
+      ...commonOpts,
+      plugins: {
+        ...commonOpts.plugins,
+        title: { display: true, text: t("chart_price"), color: "#94a3b8", font: { size: 12, weight: "500" }, padding: { bottom: 10 } },
+      },
+    },
   });
 
+  const oiCtx = $("#chart-oi").getContext("2d");
   const oiChart = new Chart($("#chart-oi"), {
     type: "line",
-    data: { labels, datasets: [{ label: "OI", data: recent.map((r) => r.oi_usd), borderColor: "#58a6ff", backgroundColor: "rgba(88,166,255,0.1)", fill: true, tension: 0.3, pointRadius: 0 }] },
-    options: { ...commonOpts, plugins: { ...commonOpts.plugins, title: { display: true, text: t("chart_oi"), color: "#e6edf3" } } },
+    data: {
+      labels,
+      datasets: [{
+        label: "OI",
+        data: recent.map((r) => r.oi_usd),
+        borderColor: "#3b82f6",
+        backgroundColor: makeGradient(oiCtx, "rgba(59,130,246,0.15)", "rgba(59,130,246,0)"),
+        fill: true,
+        tension: 0.4,
+      }],
+    },
+    options: {
+      ...commonOpts,
+      plugins: {
+        ...commonOpts.plugins,
+        title: { display: true, text: t("chart_oi"), color: "#94a3b8", font: { size: 12, weight: "500" }, padding: { bottom: 10 } },
+      },
+    },
   });
 
+  const fundingCtx = $("#chart-funding").getContext("2d");
   const fundingChart = new Chart($("#chart-funding"), {
     type: "line",
-    data: { labels, datasets: [{ label: "Funding", data: recent.map((r) => r.funding_rate), borderColor: "#3fb950", backgroundColor: "rgba(63,185,80,0.1)", fill: true, tension: 0.3, pointRadius: 0 }] },
-    options: { ...commonOpts, plugins: { ...commonOpts.plugins, title: { display: true, text: t("chart_funding"), color: "#e6edf3" } } },
+    data: {
+      labels,
+      datasets: [{
+        label: "Funding",
+        data: recent.map((r) => r.funding_rate),
+        borderColor: "#06b6d4",
+        backgroundColor: makeGradient(fundingCtx, "rgba(6,182,212,0.15)", "rgba(6,182,212,0)"),
+        fill: true,
+        tension: 0.4,
+      }],
+    },
+    options: {
+      ...commonOpts,
+      plugins: {
+        ...commonOpts.plugins,
+        title: { display: true, text: t("chart_funding"), color: "#94a3b8", font: { size: 12, weight: "500" }, padding: { bottom: 10 } },
+      },
+    },
   });
 
   // ==================================================================
@@ -423,7 +541,7 @@
   }
 
   function classifyFunding(rate) {
-    const pct = rate * 100; // convert decimal to %
+    const pct = rate * 100;
     if (pct > 0.03)  return { color: "red",    key: "fr_extreme_long" };
     if (pct > 0.01)  return { color: "yellow", key: "fr_long_bias" };
     if (pct < -0.03) return { color: "red",    key: "fr_extreme_panic" };
@@ -434,14 +552,33 @@
   // ==================================================================
   // Render
   // ==================================================================
+  let isFirstRender = true;
+
   function render() {
     applyI18n();
 
-    // Latest
-    $("#val-price").textContent = fmtPrice(latest.price_usd);
-    $("#val-oi").textContent = fmtOI(latest.oi_usd);
-    $("#val-funding").textContent = fmtFunding(latest.funding_rate);
-    $("#val-ts").textContent = t("updated") + fmtTs(latest.ts_utc);
+    // Latest — animated countUp on first load
+    const priceEl = $("#val-price");
+    const oiEl = $("#val-oi");
+    const fundingEl = $("#val-funding");
+
+    if (isFirstRender) {
+      animateValue(priceEl, latest.price_usd, fmtPrice, 1200);
+      animateValue(oiEl, latest.oi_usd, fmtOI, 1200);
+      animateValue(fundingEl, latest.funding_rate, fmtFunding, 1200);
+      isFirstRender = false;
+    } else {
+      priceEl.textContent = fmtPrice(latest.price_usd);
+      oiEl.textContent = fmtOI(latest.oi_usd);
+      fundingEl.textContent = fmtFunding(latest.funding_rate);
+    }
+
+    // Timestamp with live dot
+    const tsEl = $("#val-ts");
+    const liveDot = tsEl.querySelector(".live-dot");
+    tsEl.textContent = "";
+    if (liveDot) tsEl.appendChild(liveDot);
+    tsEl.appendChild(document.createTextNode(" " + t("updated") + fmtTs(latest.ts_utc)));
 
     // Risk status
     const ref = findRef24h();
@@ -453,7 +590,7 @@
 
     if (!ref) {
       meter.className = "risk-meter risk-neutral";
-      icon.textContent = "?";
+      icon.textContent = "\u26AA";
       verdict.textContent = t("risk_neutral_label");
       sub.textContent = t("risk_no_ref");
       indContainer.innerHTML = "";
@@ -465,7 +602,6 @@
       const oClass = classifyOI(oiPct);
       const fClass = classifyFunding(latest.funding_rate);
 
-      // Verdict
       let vKey, vSubKey, vLevel, vIcon;
       if (pricePct !== null && oiPct !== null && pricePct < 0 && oiPct < 0) {
         vKey = "risk_spiral_up"; vSubKey = "risk_spiral_up_sub"; vLevel = "risk-high"; vIcon = "\u{1F534}";
@@ -480,7 +616,6 @@
       verdict.textContent = t(vKey);
       sub.textContent = t(vSubKey);
 
-      // Individual indicators
       const pctStr = (v) => v === null ? "n/a" : (v >= 0 ? "+" : "") + v.toFixed(2) + "%";
       indContainer.innerHTML =
         `<span class="risk-ind"><span class="risk-dot ${pClass.color}"></span> ${t("ri_price")} ${pctStr(pricePct)} — ${t(pClass.key)}</span>` +
