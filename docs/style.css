@@ -29,6 +29,31 @@ header h1 {
   font-size: 0.95rem;
 }
 
+.tz-selector {
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #8b949e;
+}
+
+.tz-selector select {
+  background: #161b22;
+  color: #e6edf3;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.tz-selector select:focus {
+  outline: none;
+  border-color: #58a6ff;
+}
+
 .card {
   background: #161b22;
   border: 1px solid #30363d;
@@ -121,4 +146,132 @@ footer {
 footer a {
   color: #58a6ff;
   text-decoration: none;
+}
+
+/* --- Indicator Guide --- */
+
+.guide-intro {
+  font-size: 0.9rem;
+  color: #c9d1d9;
+  margin-bottom: 1.2rem;
+  line-height: 1.7;
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.guide-item {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.guide-item h3 {
+  font-size: 0.95rem;
+  color: #f0883e;
+  margin-bottom: 0.5rem;
+}
+
+.guide-desc {
+  font-size: 0.82rem;
+  color: #8b949e;
+  margin-bottom: 0.8rem;
+  line-height: 1.6;
+}
+
+.threshold-table {
+  width: 100%;
+  font-size: 0.8rem;
+}
+
+.threshold-table th {
+  color: #8b949e;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.threshold-table td {
+  text-align: left;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tag-green  { background: rgba(63,185,80,0.15);  color: #3fb950; }
+.tag-yellow { background: rgba(210,153,34,0.15);  color: #d29922; }
+.tag-orange { background: rgba(219,109,40,0.15);  color: #db6d28; }
+.tag-red    { background: rgba(248,81,73,0.15);   color: #f85149; }
+.tag-gray   { background: rgba(139,148,158,0.15); color: #8b949e; }
+
+.guide-verdict {
+  margin-bottom: 1.2rem;
+}
+
+.guide-verdict h3 {
+  font-size: 0.95rem;
+  color: #58a6ff;
+  margin-bottom: 0.6rem;
+}
+
+.verdict-table td:last-child {
+  font-size: 0.78rem;
+  color: #8b949e;
+}
+
+.guide-burry {
+  background: #0d1117;
+  border: 1px solid #f8514933;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.guide-burry h3 {
+  font-size: 0.95rem;
+  color: #f85149;
+  margin-bottom: 0.6rem;
+}
+
+.guide-burry p {
+  font-size: 0.85rem;
+  color: #c9d1d9;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.guide-burry ol {
+  padding-left: 1.2rem;
+  font-size: 0.85rem;
+  color: #c9d1d9;
+  line-height: 1.8;
+  margin-bottom: 0.8rem;
+}
+
+.burry-quote {
+  font-style: italic;
+  color: #8b949e;
+  border-left: 3px solid #f85149;
+  padding-left: 0.8rem;
+  margin-top: 0.8rem;
+  font-size: 0.82rem;
+}
+
+.guide-disclaimer {
+  font-size: 0.78rem;
+  color: #6e7681;
+  text-align: center;
+  margin-top: 0.5rem;
 }
