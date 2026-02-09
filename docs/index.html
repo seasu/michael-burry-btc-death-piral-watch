@@ -69,6 +69,121 @@
         </table>
       </div>
     </section>
+
+    <!-- Indicator Guide -->
+    <section class="card guide">
+      <h2>Indicator Guide — Death Spiral Risk</h2>
+      <p class="guide-intro">
+        Michael Burry 式的「泡沫崩塌」核心邏輯：當槓桿過度膨脹，市場只需一個下跌觸發點，
+        就會進入<strong>價格下跌 → 強制平倉 → 賣壓加劇 → 價格再跌</strong>的死亡螺旋。
+        以下三個指標可以幫助判斷螺旋是否正在形成。
+      </p>
+
+      <div class="guide-grid">
+        <!-- Price -->
+        <div class="guide-item">
+          <h3>BTC Price (USD)</h3>
+          <p class="guide-desc">比特幣現貨價格。價格本身不是風險指標，但<strong>價格的變動方向</strong>搭配 OI 變動才是關鍵。</p>
+          <table class="threshold-table">
+            <thead><tr><th>24h 變動</th><th>狀態</th></tr></thead>
+            <tbody>
+              <tr><td>&gt; +3%</td><td><span class="tag tag-green">正常上漲</span></td></tr>
+              <tr><td>-3% ~ +3%</td><td><span class="tag tag-gray">盤整</span></td></tr>
+              <tr><td>-3% ~ -7%</td><td><span class="tag tag-yellow">修正</span></td></tr>
+              <tr><td>-7% ~ -15%</td><td><span class="tag tag-orange">急跌警戒</span></td></tr>
+              <tr><td>&lt; -15%</td><td><span class="tag tag-red">崩盤等級</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- OI -->
+        <div class="guide-item">
+          <h3>Open Interest (OI)</h3>
+          <p class="guide-desc">
+            未平倉合約總值。OI 代表市場上「還沒結束的賭注」有多大。
+            <strong>OI 下降 = 有人被迫平倉或主動撤退</strong>，若同時價格也在跌，
+            代表多頭正在被清算——這是螺旋的核心機制。
+          </p>
+          <table class="threshold-table">
+            <thead><tr><th>24h 變動</th><th>狀態</th></tr></thead>
+            <tbody>
+              <tr><td>&gt; +5%</td><td><span class="tag tag-yellow">槓桿快速增加，潛在風險累積</span></td></tr>
+              <tr><td>+1% ~ +5%</td><td><span class="tag tag-green">健康增長</span></td></tr>
+              <tr><td>-1% ~ +1%</td><td><span class="tag tag-gray">穩定</span></td></tr>
+              <tr><td>-5% ~ -1%</td><td><span class="tag tag-orange">去槓桿中</span></td></tr>
+              <tr><td>&lt; -5%</td><td><span class="tag tag-red">大規模清算，螺旋風險高</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Funding Rate -->
+        <div class="guide-item">
+          <h3>Funding Rate</h3>
+          <p class="guide-desc">
+            永續合約多空雙方定期互付的費率。正值 = 多頭付錢（市場偏多），
+            負值 = 空頭付錢（市場偏空）。
+            <strong>極端正值代表多頭過度擁擠</strong>，是泡沫即將反轉的前兆；
+            <strong>極端負值代表恐慌</strong>，螺旋可能正在發生。
+          </p>
+          <table class="threshold-table">
+            <thead><tr><th>Funding Rate</th><th>狀態</th></tr></thead>
+            <tbody>
+              <tr><td>&gt; 0.03%</td><td><span class="tag tag-red">多頭極度擁擠 — Burry 泡沫訊號</span></td></tr>
+              <tr><td>0.01% ~ 0.03%</td><td><span class="tag tag-yellow">偏多，留意反轉</span></td></tr>
+              <tr><td>-0.01% ~ 0.01%</td><td><span class="tag tag-green">中性健康</span></td></tr>
+              <tr><td>-0.03% ~ -0.01%</td><td><span class="tag tag-orange">偏空，去槓桿中</span></td></tr>
+              <tr><td>&lt; -0.03%</td><td><span class="tag tag-red">極度恐慌 — 螺旋進行中</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Verdict -->
+      <div class="guide-verdict">
+        <h3>Verdict 判讀規則</h3>
+        <table class="threshold-table verdict-table">
+          <thead><tr><th>組合條件</th><th>判讀</th><th>含義</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Price ↓ 且 OI ↓</td>
+              <td><span class="tag tag-red">Spiral risk ↑</span></td>
+              <td>價格與槓桿同步下降，市場正在強制去槓桿，死亡螺旋風險升高</td>
+            </tr>
+            <tr>
+              <td>Price ↑ 且 OI ↑</td>
+              <td><span class="tag tag-green">Spiral risk ↓</span></td>
+              <td>新資金進場推動價格，槓桿健康增長，螺旋風險低</td>
+            </tr>
+            <tr>
+              <td>其他組合</td>
+              <td><span class="tag tag-gray">Neutral</span></td>
+              <td>訊號混合，暫無明確方向。例：價格跌但 OI 升 = 有人在抄底開多</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Burry Signal -->
+      <div class="guide-burry">
+        <h3>什麼情況接近 Burry 所說的泡沫崩塌？</h3>
+        <p>當以下條件<strong>同時出現</strong>時，市場處於最危險的狀態：</p>
+        <ol>
+          <li><strong>OI 處於歷史高位</strong>（槓桿泡沫已形成）</li>
+          <li><strong>Funding Rate &gt; 0.03%</strong>（多頭極度擁擠，所有人都在同一邊）</li>
+          <li><strong>價格開始下跌 &gt; 5%</strong>（觸發第一波清算）</li>
+          <li><strong>OI 急速下降 &gt; 5%</strong>（連鎖清算已啟動）</li>
+          <li><strong>Funding Rate 急轉為負</strong>（市場從貪婪瞬間轉為恐慌）</li>
+        </ol>
+        <p class="burry-quote">
+          "People always ask me what is going on in the markets. It is simple.
+          Greatest Speculative Bubble of All Time in All Things." — Michael Burry
+        </p>
+      </div>
+
+      <p class="guide-disclaimer">
+        以上閾值僅供參考，基於歷史經驗歸納，不構成投資建議。市場條件會改變，請自行判斷。
+      </p>
+    </section>
   </main>
 
   <footer>
