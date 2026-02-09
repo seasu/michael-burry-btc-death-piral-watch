@@ -19,7 +19,7 @@
   let latest, history;
 
   try {
-    const latestResp = await fetch("../data/latest.json");
+    const latestResp = await fetch("data/latest.json");
     latest = await latestResp.json();
   } catch {
     $("#val-price").textContent = "Error loading data";
@@ -27,7 +27,7 @@
   }
 
   try {
-    const histResp = await fetch("../data/history.csv");
+    const histResp = await fetch("data/history.csv");
     const csv = await histResp.text();
     history = parseCSV(csv);
   } catch {

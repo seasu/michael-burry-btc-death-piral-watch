@@ -28,11 +28,17 @@ jobs:
           SYMBOL: ${{ vars.SYMBOL || 'BTCUSDT' }}
         run: python scripts/collect.py
 
+      - name: Sync data to docs/ for GitHub Pages
+        run: |
+          mkdir -p docs/data
+          cp data/latest.json docs/data/latest.json
+          cp data/history.csv docs/data/history.csv
+
       - name: Commit & push (only if changed)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/latest.json data/history.csv
+          git add data/latest.json data/history.csv docs/data/
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
