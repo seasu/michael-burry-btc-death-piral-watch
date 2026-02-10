@@ -27,14 +27,13 @@ Burry 的核心論點：當市場槓桿過度膨脹，只需一個下跌觸發�
 其他 → Neutral
 
 4/
-為什麼要「可審計」？
+怎麼讓數據可信？這是我跟 AI 討論出的設計——用 GitHub commit 紀錄當「不可竄改的時間戳」：
 
-市場不缺分析師，缺的是「你怎麼證明沒有事後改數據」。
-
-所有資料存在公開 GitHub repo：
-- 每小時自動抓取，有 commit 紀錄
-- 貼文先 commit 再發到 X
+- 每小時自動抓取，寫入 history.csv
+- 貼文全文先 commit 再發 X
 - 任何人可回溯驗證任何一天的判讀
+
+事後改數據？commit hash 會說話。
 
 5/
 這個專案同時也是一次 Vibe Coding 實驗——從 PRD、SPEC 撰寫到完整開發，全程透過 AI 協作完成。
@@ -57,6 +56,11 @@ Burry 的核心論點：當市場槓桿過度膨脹，只需一個下跌觸發�
 
 如果你也在關注 Burry 的觀點，想用數據追蹤而不是只看標題，歡迎追蹤。
 
-對 Vibe Coding 有興趣？原始碼全部公開，歡迎 fork。
+對 Vibe Coding 有興趣？歡迎 fork。
 
-原始碼與資料 → bio 連結
+8/
+原始碼與資料都在這：
+github.com/seasu/michael-burry-btc-death-piral-watch
+
+即時 Dashboard：
+seasu.github.io/michael-burry-btc-death-piral-watch
