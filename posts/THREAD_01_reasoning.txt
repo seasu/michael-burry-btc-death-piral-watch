@@ -1,21 +1,17 @@
-BTC Death Spiral Watch — 為什麼我要做這件事？
-
 1/
-最近很多人在討論 Michael Burry 的看空觀點——「史上最大投機泡沫」。
+看到很多人在討論 Michael Burry 的看空觀點，我用 AI 做了一個 BTC 槓桿風險自動監測工具——BTC Death Spiral Watch。
 
-但喊泡沫的人很多，能用數據追蹤「泡沫正在破裂嗎？」的人很少。
-
-所以我做了 BTC Death Spiral Watch。
+每天用數據追蹤：Burry 說的「泡沫崩塌」是否正在發生？
 
 2/
-Burry 的核心論點：當市場槓桿過度膨脹，只需一個下跌觸發點就會引爆連鎖反應——
+Burry 的核心邏輯：當市場槓桿過度膨脹，一個下跌觸發點就能引爆連鎖反應——
 
 價格跌 → 多頭強平 → OI 驟降 → 賣壓加劇 → 價格再跌
 
-這就是 Death Spiral（死亡螺旋），這個工具在追蹤它是否正在發生。
+這就是 Death Spiral（死亡螺旋）。問題是大多數人都是事後才知道。
 
 3/
-追蹤三個關鍵指標（來源 CoinGecko）：
+這個工具追蹤三個指標（來源 CoinGecko）：
 
 - BTC 現貨價格
 - BTCUSDT 未平倉量（OI）
@@ -27,39 +23,41 @@ Burry 的核心論點：當市場槓桿過度膨脹，只需一個下跌觸發�
 其他 → Neutral
 
 4/
-怎麼讓數據可信？這是我跟 AI 討論出的設計——用 GitHub commit 紀錄當「不可竄改的時間戳」：
+光有數據還不夠，怎麼讓人相信沒有事後改數據？
+
+這是跟 AI 討論出的設計——用 GitHub commit 當「不可竄改的時間戳」：
 
 - 每小時自動抓取，寫入 history.csv
-- 貼文全文先 commit 再發 X
-- 任何人可回溯驗證任何一天的判讀
+- 貼文先 commit 再發 X
+- 任何人可回溯驗證
 
-事後改數據？commit hash 會說話。
+commit hash 不會說謊。
 
 5/
-這個專案同時也是一次 Vibe Coding 實驗——從 PRD、SPEC 撰寫到完整開發，全程透過 AI 協作完成。
+整個專案也是一次 Vibe Coding 實驗——從 PRD、SPEC 到完整開發，全程 AI 協作完成。
 
-資料收集、自動發文、Dashboard、多語言，整套系統都是 AI + 人類一起 vibe 出來的。
+資料收集、自動發文、Dashboard、多語言，都是 AI + 人類一起 vibe 出來的。
 
-想了解 AI 輔助開發能做到什麼程度，這個 repo 本身就是一個完整案例。
+想知道 AI 輔助開發能做到什麼程度？這個 repo 就是完整案例。
 
 6/
-除了每日貼文，還有即時 Dashboard：
+除了每日自動貼文，還有即時 Dashboard：
 
 - 最新 Price / OI / Funding Rate
 - 風險狀態即時判讀
 - 7 天走勢圖 + 歷史紀錄
-- 完整 Burry 泡沫條件對照
+- Burry 泡沫條件對照
 - 繁中 / English / 日本語
 
 7/
-這不是投資建議。
+這不是投資建議，是一個公開透明的自動化風險監測工具。
 
-如果你也在關注 Burry 的觀點，想用數據追蹤而不是只看標題，歡迎追蹤。
+關注 Burry 觀點？想用數據追蹤而不是只看標題？歡迎追蹤。
 
-對 Vibe Coding 有興趣？歡迎 fork。
+對 Vibe Coding 有興趣？原始碼全部公開，歡迎 fork。
 
 8/
-原始碼與資料都在這：
+原始碼：
 github.com/seasu/michael-burry-btc-death-piral-watch
 
 即時 Dashboard：
