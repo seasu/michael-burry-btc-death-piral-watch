@@ -24,6 +24,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Collect fresh data first
+        env:
+          SYMBOL: ${{ vars.SYMBOL || 'BTCUSDT' }}
+        run: python scripts/collect.py
+
       - name: Generate post & daily audit JSON
         env:
           SYMBOL: ${{ vars.SYMBOL || 'BTCUSDT' }}
@@ -42,7 +47,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/daily/ posts/ docs/data/
+          git add data/latest.json data/history.csv data/daily/ posts/ docs/data/
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
