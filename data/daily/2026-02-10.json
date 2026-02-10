@@ -1,0 +1,13 @@
+{
+  "date_tpe": "2026-02-10",
+  "latest": {
+    "ts_utc": "2026-02-10T00:00:00Z",
+    "price_usd": 69774.0,
+    "oi_usd": 5529326278.41,
+    "funding_rate": -6.906e-05
+  },
+  "ref_24h": null,
+  "price_change_24h_pct": null,
+  "oi_change_24h_pct": null,
+  "verdict": "Neutral"
+}
