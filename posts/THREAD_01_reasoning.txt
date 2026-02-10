@@ -1,50 +1,62 @@
 BTC Death Spiral Watch — 為什麼我要做這件事？
 
 1/
-加密市場最危險的時刻，往往不是「暴跌」本身，而是暴跌引發的「去槓桿螺旋」——價格下跌 → 多頭強平 → OI 驟降 → 賣壓加劇 → 價格繼續跌。
+最近很多人在討論 Michael Burry 的看空觀點——「史上最大投機泡沫」。
 
-這就是所謂的 Death Spiral（死亡螺旋）。
+但喊泡沫的人很多，能用數據追蹤「泡沫正在破裂嗎？」的人很少。
+
+所以我做了 BTC Death Spiral Watch。
 
 2/
-問題是：大部分人都是事後才知道螺旋發生了。
-等你看到「清算量 24h 破 10 億美元」的新聞時，最猛烈的階段通常已經過了。
+Burry 的核心論點：當市場槓桿過度膨脹，只需一個下跌觸發點就會引爆連鎖反應——
 
-我想做的是：每天在螺旋「有可能正在形成」的時候，就把訊號攤開來看。
+價格跌 → 多頭強平 → OI 驟降 → 賣壓加劇 → 價格再跌
+
+這就是 Death Spiral（死亡螺旋），這個工具在追蹤它是否正在發生。
 
 3/
-方法很簡單，只看三個指標：
-- BTC 現貨價格（CoinGecko）
-- BTCUSDT 永續合約未平倉量 OI（CoinGecko Derivatives）
-- BTCUSDT 資金費率 Funding Rate（CoinGecko Derivatives）
+追蹤三個關鍵指標（來源 CoinGecko）：
 
-當「價格下跌 + OI 同步下降」時，代表市場正在強制去槓桿 → Spiral risk ↑
-當「價格上漲 + OI 同步上升」時，代表槓桿健康增長 → Spiral risk ↓
-其他組合 → Neutral
+- BTC 現貨價格
+- BTCUSDT 未平倉量（OI）
+- BTCUSDT 資金費率（Funding Rate）
+
+判讀規則：
+價格↓ + OI↓ → Spiral Risk ↑
+價格↑ + OI↑ → Spiral Risk ↓
+其他 → Neutral
 
 4/
 為什麼要「可審計」？
 
-市場上不缺分析師，缺的是「你怎麼知道他沒有事後改數據」。
+市場不缺分析師，缺的是「你怎麼證明沒有事後改數據」。
 
-這個專案的所有資料都存在公開的 GitHub repo 裡：
-- 每小時抓一次資料，寫入 history.csv（有 commit 紀錄）
-- 每日判讀結果寫入 data/daily/YYYY-MM-DD.json
-- 貼文全文先 commit，再發到 X
-
-任何人都可以回溯任何一天的數據與判讀，驗證我沒有造假。
+所有資料存在公開 GitHub repo：
+- 每小時自動抓取，有 commit 紀錄
+- 貼文先 commit 再發到 X
+- 任何人可回溯驗證任何一天的判讀
 
 5/
-除了每日貼文，還有一個即時 Dashboard：
-- 最新 Price / OI / Funding Rate
-- 風險狀態即時判讀（Spiral Risk ↑ / ↓ / Neutral）
-- 7 天走勢圖
-- 完整指標閾值說明 & Burry 泡沫條件
-- 支援多語言（繁中 / English / 日本語）& 時區切換
+這個專案同時也是一次 Vibe Coding 實驗——從 PRD、SPEC 撰寫到完整開發，全程透過 AI 協作完成。
+
+資料收集、自動發文、Dashboard、多語言，整套系統都是 AI + 人類一起 vibe 出來的。
+
+想了解 AI 輔助開發能做到什麼程度，這個 repo 本身就是一個完整案例。
 
 6/
+除了每日貼文，還有即時 Dashboard：
+
+- 最新 Price / OI / Funding Rate
+- 風險狀態即時判讀
+- 7 天走勢圖 + 歷史紀錄
+- 完整 Burry 泡沫條件對照
+- 繁中 / English / 日本語
+
+7/
 這不是投資建議。
-這是一個公開、透明、自動化的風險訊號監測工具。
 
-如果你覺得有用，歡迎追蹤。如果你覺得判讀規則可以更好，歡迎 fork。
+如果你也在關注 Burry 的觀點，想用數據追蹤而不是只看標題，歡迎追蹤。
 
-所有原始碼與資料：見 bio 連結
+對 Vibe Coding 有興趣？原始碼全部公開，歡迎 fork。
+
+原始碼與資料 → bio 連結
