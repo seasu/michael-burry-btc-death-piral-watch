@@ -1,6 +1,8 @@
 """
 post_to_x.py — 將當日貼文發到 X (Twitter)
 BTC Death Spiral Watch
+
+使用 OAuth 1.0a User Context 認證（X API v2 發推文必須）
 """
 
 import json
@@ -9,6 +11,7 @@ import sys
 import time
 
 import requests
+from requests_oauthlib import OAuth1
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
@@ -26,19 +29,27 @@ POSTS_DIR = os.path.join(BASE_DIR, "posts")
 # Main
 # ---------------------------------------------------------------------------
 
-def post_tweet(text: str, bearer_token: str, post_url: str) -> requests.Response:
-    headers = {
-        "Authorization": f"Bearer {bearer_token}",
-        "Content-Type": "application/json",
-    }
+def post_tweet(text: str, auth: OAuth1, post_url: str) -> requests.Response:
     payload = json.dumps({"text": text})
-    resp = requests.post(post_url, headers=headers, data=payload, timeout=15)
+    resp = requests.post(
+        post_url,
+        auth=auth,
+        headers={"Content-Type": "application/json"},
+        data=payload,
+        timeout=15,
+    )
     return resp
 
 
 def main() -> None:
-    bearer_token = get_env("X_BEARER_TOKEN", required=True)
+    # OAuth 1.0a User Context — 需要 4 組 key/token
+    api_key = get_env("X_API_KEY", required=True)
+    api_secret = get_env("X_API_SECRET", required=True)
+    access_token = get_env("X_ACCESS_TOKEN", required=True)
+    access_secret = get_env("X_ACCESS_SECRET", required=True)
     post_url = get_env("X_POST_URL", "https://api.x.com/2/tweets")
+
+    auth = OAuth1(api_key, api_secret, access_token, access_secret)
 
     date_tpe = tpe_date_str()
     post_path = os.path.join(POSTS_DIR, f"{date_tpe}.txt")
@@ -53,7 +64,7 @@ def main() -> None:
     # 嘗試發文（最多 2 次）
     last_resp = None
     for attempt in range(2):
-        resp = post_tweet(text, bearer_token, post_url)
+        resp = post_tweet(text, auth, post_url)
         last_resp = resp
         if resp.status_code in (200, 201):
             print(f"[post_to_x] OK — status={resp.status_code}")
