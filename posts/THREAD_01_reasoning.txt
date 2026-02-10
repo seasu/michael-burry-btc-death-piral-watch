@@ -1,4 +1,4 @@
-🧵 BTC Death Spiral Watch — 為什麼我要做這件事？
+BTC Death Spiral Watch — 為什麼我要做這件事？
 
 1/
 加密市場最危險的時刻，往往不是「暴跌」本身，而是暴跌引發的「去槓桿螺旋」——價格下跌 → 多頭強平 → OI 驟降 → 賣壓加劇 → 價格繼續跌。
@@ -14,8 +14,8 @@
 3/
 方法很簡單，只看三個指標：
 - BTC 現貨價格（CoinGecko）
-- BTCUSDT 永續合約未平倉量 OI（Binance Futures）
-- BTCUSDT 資金費率 Funding Rate（Binance Futures）
+- BTCUSDT 永續合約未平倉量 OI（CoinGecko Derivatives）
+- BTCUSDT 資金費率 Funding Rate（CoinGecko Derivatives）
 
 當「價格下跌 + OI 同步下降」時，代表市場正在強制去槓桿 → Spiral risk ↑
 當「價格上漲 + OI 同步上升」時，代表槓桿健康增長 → Spiral risk ↓
@@ -34,9 +34,17 @@
 任何人都可以回溯任何一天的數據與判讀，驗證我沒有造假。
 
 5/
+除了每日貼文，還有一個即時 Dashboard：
+- 最新 Price / OI / Funding Rate
+- 風險狀態即時判讀（Spiral Risk ↑ / ↓ / Neutral）
+- 7 天走勢圖
+- 完整指標閾值說明 & Burry 泡沫條件
+- 支援多語言（繁中 / English / 日本語）& 時區切換
+
+6/
 這不是投資建議。
 這是一個公開、透明、自動化的風險訊號監測工具。
 
 如果你覺得有用，歡迎追蹤。如果你覺得判讀規則可以更好，歡迎 fork。
 
-所有原始碼與資料：見 bio 連結 🔗
+所有原始碼與資料：見 bio 連結
