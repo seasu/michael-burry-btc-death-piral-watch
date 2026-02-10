@@ -57,6 +57,11 @@ Burry 的核心論點：當市場槓桿過度膨脹，只需一個下跌觸發�
 
 如果你也在關注 Burry 的觀點，想用數據追蹤而不是只看標題，歡迎追蹤。
 
-對 Vibe Coding 有興趣？原始碼全部公開，歡迎 fork。
+對 Vibe Coding 有興趣？歡迎 fork。
 
-原始碼與資料 → bio 連結
+8/
+原始碼與資料都在這：
+github.com/seasu/michael-burry-btc-death-piral-watch
+
+即時 Dashboard：
+seasu.github.io/michael-burry-btc-death-piral-watch
