@@ -1,18 +1,18 @@
 {
   "date_tpe": "2026-02-11",
   "latest": {
-    "ts_utc": "2026-02-10T17:00:00Z",
-    "price_usd": 69393.0,
-    "oi_usd": 5570023018.54,
-    "funding_rate": -9.503000000000002e-05
+    "ts_utc": "2026-02-11T01:00:00Z",
+    "price_usd": 68893.0,
+    "oi_usd": 5477363689.69,
+    "funding_rate": 5.71e-06
   },
   "ref_24h": {
-    "ts_utc": "2026-02-09T17:00:00Z",
-    "price_usd": 70041.0,
-    "oi_usd": 5684958476.61,
-    "funding_rate": -5.9690000000000006e-05
+    "ts_utc": "2026-02-10T01:00:00Z",
+    "price_usd": 70374.0,
+    "oi_usd": 5544740533.95,
+    "funding_rate": -4.623e-05
   },
-  "price_change_24h_pct": -0.93,
-  "oi_change_24h_pct": -2.02,
+  "price_change_24h_pct": -2.1,
+  "oi_change_24h_pct": -1.22,
   "verdict": "Spiral risk ↑"
 }
