@@ -1,0 +1,18 @@
+{
+  "date_tpe": "2026-05-27",
+  "latest": {
+    "ts_utc": "2026-05-27T01:00:00Z",
+    "price_usd": 75770.0,
+    "oi_usd": 7552385530.89,
+    "funding_rate": 0.0001
+  },
+  "ref_24h": {
+    "ts_utc": "2026-05-26T01:00:00Z",
+    "price_usd": 76646.0,
+    "oi_usd": 7662122183.8,
+    "funding_rate": 7.135e-05
+  },
+  "price_change_24h_pct": -1.14,
+  "oi_change_24h_pct": -1.43,
+  "verdict": "Spiral risk ↑"
+}
