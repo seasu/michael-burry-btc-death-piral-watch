@@ -1,0 +1,18 @@
+{
+  "date_tpe": "2026-08-05",
+  "latest": {
+    "ts_utc": "2026-08-05T03:00:00Z",
+    "price_usd": 64125.0,
+    "oi_usd": 6933126842.19,
+    "funding_rate": 3.7259999999999985e-05
+  },
+  "ref_24h": {
+    "ts_utc": "2026-08-04T03:00:00Z",
+    "price_usd": 63677.0,
+    "oi_usd": 6959047324.01,
+    "funding_rate": 4.229999999999999e-05
+  },
+  "price_change_24h_pct": 0.7,
+  "oi_change_24h_pct": -0.37,
+  "verdict": "Neutral"
+}
