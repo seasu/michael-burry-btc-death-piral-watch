@@ -1,0 +1,10 @@
+BTC Death Spiral Watch (Daily) — 2026-08-15 (TPE)
+
+Price: $62,989.00 (-0.74% 24h)
+OI: $7.07B (+1.34% 24h)
+Funding: 0.000080
+Verdict: Neutral
+
+Audit: https://github.com/seasu/michael-burry-btc-death-piral-watch/blob/main/data/daily/2026-08-15.json
+Dashboard: https://seasu.github.io/michael-burry-btc-death-piral-watch
+#BTC #DeathSpiral #Bitcoin #crypto #michaelburry
