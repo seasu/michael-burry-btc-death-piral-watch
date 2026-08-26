@@ -1,8 +1,9 @@
 name: Hourly Collect
 
 on:
-  schedule:
-    - cron: "0 * * * *"   # UTC 每小時整點
+  # Scheduled run disabled due to repeated job failures; trigger manually instead.
+  # schedule:
+  #   - cron: "0 * * * *"   # UTC 每小時整點
   workflow_dispatch:
 
 permissions:
