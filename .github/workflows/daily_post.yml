@@ -1,8 +1,9 @@
 name: Daily Post
 
 on:
-  schedule:
-    - cron: "0 1 * * *"   # UTC 01:00 = TPE 09:00
+  # Scheduled run disabled due to repeated job failures; trigger manually instead.
+  # schedule:
+  #   - cron: "0 1 * * *"   # UTC 01:00 = TPE 09:00
   workflow_dispatch:
 
 permissions:
